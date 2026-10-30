@@ -1,0 +1,113 @@
+{
+  "name": "Apify Sync - Website Contact & Social Profile Extractor",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 9 * * 1-5"
+            }
+          ]
+        }
+      },
+      "id": "1",
+      "name": "Daily Schedule (9 AM)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        200,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/acts/deepaksheoran172~website-contact-extractor/run-sync-get-dataset-items",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "token",
+              "value": "={{ $env.APIFY_TOKEN || 'YOUR_APIFY_API_TOKEN' }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "body": "{\"startUrls\": [\"https://stripe.com\", \"https://linear.app\"]}",
+        "options": {
+          "timeout": 300000
+        }
+      },
+      "id": "2",
+      "name": "Run website-contact-extractor",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        450,
+        300
+      ],
+      "notes": "Sync API Call to Apify Actor deepaksheoran172/website-contact-extractor. Zero proxy cost, Pay-Per-Event pricing."
+    },
+    {
+      "parameters": {
+        "jsCode": "// Normalizes returned Apify dataset records for downstream CRM/Slack/Database nodes\nconst items = $input.all();\nreturn items.map(item => ({\n  json: {\n    ...item.json,\n    extractedAtUtc: new Date().toISOString(),\n    sourceActor: 'deepaksheoran172/website-contact-extractor'\n  }\n}));"
+      },
+      "id": "3",
+      "name": "Format & Normalize Records",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        700,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Daily Schedule (9 AM)": {
+      "main": [
+        [
+          {
+            "node": "Run website-contact-extractor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run website-contact-extractor": {
+      "main": [
+        [
+          {
+            "node": "Format & Normalize Records",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "apify-b2b-fleet-template"
+  },
+  "tags": [
+    {
+      "name": "Apify"
+    },
+    {
+      "name": "Zero-Proxy"
+    },
+    {
+      "name": "B2B"
+    }
+  ]
+}
