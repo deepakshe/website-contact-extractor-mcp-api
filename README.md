@@ -9,13 +9,43 @@
 
 ---
 
+## ⚡ Instant Normalized Output (Sample JSON)
+
+```json
+[
+  {
+    "url": "https://stripe.com",
+    "emails": [
+      "support@stripe.com",
+      "press@stripe.com"
+    ],
+    "phones": [
+      "+1-888-926-2289"
+    ],
+    "linkedin_url": "https://linkedin.com/company/stripe"
+  }
+]
+```
+
+---
+
 ## ⚡ The Problem vs. The Solution
 
 Finding decision makers across corporate websites takes hours of manual navigation. This crawler systematically indexes About Us, Team, and Contact pages to extract executive names, corporate emails, telephone numbers, and social links.
 
 - **Zero-Proxy Architecture:** Pure asynchronous execution designed for extreme speed (<50MB RAM).
-- **Multi-Interface Support:** Run via pure Python SDK, Node.js fetch, n8n / Make.com workflow, or Claude / Cursor MCP Agent.
+- **Multi-Interface Support:** Run via pure Python SDK, cURL, Node.js fetch, n8n / Make.com workflow, or Claude / Cursor MCP Agent.
 - **Production Reliable:** Backed by Apify's serverless infrastructure with 99.9% uptime SLA.
+
+---
+
+## 🚀 Quickstart: 1-Line cURL (Test in 2 Seconds)
+
+```bash
+curl -X POST "https://api.apify.com/v2/acts/deepaksheoran172~website-contact-extractor/run-sync-get-dataset-items?token=YOUR_APIFY_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{\"startUrls\": [\"https://stripe.com\", \"https://linear.app\"]}'
+```
 
 ---
 
@@ -129,6 +159,14 @@ Each returned item includes normalized, RFC-compliant fields:
 - **Apify Store:** Available under pay-per-result pricing with a **60% Launch Discount**.
 - **Run Online:** Test it instantly on the [Apify Store Console](https://apify.com/deepaksheoran172/website-contact-extractor).
 - **Fleet Hub:** Explore all 62 enterprise scrapers and MCP servers at [b2b-mcp-apify-scrapers-hub](https://deepakshe.github.io/b2b-mcp-apify-scrapers-hub/).
+
+---
+
+## 🛡️ 100% Automated Self-Service & Zero-DM Guarantee
+
+- **Pure Self-Service:** Runs autonomously via Apify Cloud API. No sales calls, manual configuration, or onboarding tickets needed.
+- **Pay-Per-Result:** Only successful output items are billed. Zero-charge on failed executions.
+- **API Documentation:** For key creation, webhooks, and concurrency settings, see [Apify Docs](https://docs.apify.com/platform/actors/running/api).
 
 ---
 
